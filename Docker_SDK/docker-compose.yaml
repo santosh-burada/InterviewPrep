@@ -1,0 +1,34 @@
+version: "3"
+services:
+  backend:
+    image: santoshburada/docker_sdk:v1.0
+    container_name: docker_sdk-backend-1
+    ports:
+      - "8080:8000"
+    restart: always
+    volumes:
+      - "dnd-docker-socket:/var/run/docker.sock"
+    networks:
+      - dockersdk
+    depends_on:
+      - dnd
+  dnd:
+    image: docker
+    container_name: dnd
+    restart: always
+    privileged: true
+    command: ["dockerd"]
+    volumes:
+      - "dnd-docker-socket:/var/run/docker.sock"
+networks:
+  dockersdk:
+    name: dockersdk
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.168.72.0/24"
+
+volumes:
+  dnd-docker-socket:
+    name: dnd-docker-socket
+

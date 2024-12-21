@@ -42,7 +42,8 @@ def list_containers():
 
 @app.get("/stopped_containers")
 def list_stopped_containers():
-    print(client.containers.list(filters={"status":"exited"}))
+    containers = client.containers.list(filters={"status":"exited"})
+    return [{"id": c.id, "name": c.name, "status": c.status} for c in containers]
 
 @app.post("/container_details", response_model=dict)
 def get_container_details(request: ContainerRequest):
