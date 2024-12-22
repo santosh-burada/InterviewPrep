@@ -7,7 +7,7 @@ services:
       - "8080:8000"
     restart: always
     volumes:
-      - "dnd-docker-socket:/var/run/docker.sock"
+      - "dnd-docker-socket:/var/run/"
     networks:
       - dockersdk
     depends_on:
@@ -17,17 +17,16 @@ services:
     container_name: dnd
     restart: always
     privileged: true
-    command: ["dockerd"]
+    networks:
+      - dockersdk
     volumes:
-      - "dnd-docker-socket:/var/run/docker.sock"
+      - "dnd-docker-socket:/var/run/"
 networks:
   dockersdk:
     name: dockersdk
     ipam:
       driver: default
-      config:
-        - subnet: "172.168.72.0/24"
-
+      
 volumes:
   dnd-docker-socket:
     name: dnd-docker-socket
