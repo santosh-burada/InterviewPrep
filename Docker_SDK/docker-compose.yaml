@@ -6,28 +6,34 @@ services:
     ports:
       - "8080:8000"
     restart: always
-    volumes:
-      - "dnd-docker-socket:/var/run/"
+    # volumes:
+    #   - "dnd-docker-socket:/var/run/"
     networks:
       - dockersdk
+    environment:
+      DOCKER_HOST: "tcp://dnd:2375"
     depends_on:
       - dnd
   dnd:
     image: docker
     container_name: dnd
     restart: always
+    entrypoint: dockerd
+    command: ["--host=0.0.0.0:2375"]
     privileged: true
     networks:
       - dockersdk
-    volumes:
-      - "dnd-docker-socket:/var/run/"
+    # environment:
+    #   DOCKER_TLS_VERIFY: "0"
+    #   DOCKER_TLS_CERTDIR: ""
+
 networks:
   dockersdk:
     name: dockersdk
     ipam:
       driver: default
       
-volumes:
-  dnd-docker-socket:
-    name: dnd-docker-socket
+# volumes:
+#   dnd-docker-socket:
+#     name: dnd-docker-socket
 

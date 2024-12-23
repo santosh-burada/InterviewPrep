@@ -1,11 +1,20 @@
 from fastapi import FastAPI, HTTPException
 import docker
+import os
+import time
+import requests
 from pydantic import BaseModel
 import logging
 from typing import List, Optional
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-client = docker.from_env()
+
+try:
+    client = docker.from_env(timeout=10)
+except (docker.errors.DockerException, requests.exceptions.RequestException) as e:
+    logging.info("Trying to connect the docker server")
+
+
 # print(client)
 app = FastAPI()
 
