@@ -6,12 +6,14 @@ services:
     ports:
       - "8080:8000"
     restart: always
-    # volumes:
-    #   - "dnd-docker-socket:/var/run/"
+    volumes:
+      - "upload:/tmp"
     networks:
       - dockersdk
     environment:
       DOCKER_HOST: "tcp://dnd:2375"
+    env_file:
+      - .secrets
     depends_on:
       - dnd
   dnd:
@@ -23,9 +25,8 @@ services:
     privileged: true
     networks:
       - dockersdk
-    # environment:
-    #   DOCKER_TLS_VERIFY: "0"
-    #   DOCKER_TLS_CERTDIR: ""
+    volumes:
+      - "upload:/tmp"
 
 networks:
   dockersdk:
@@ -33,7 +34,7 @@ networks:
     ipam:
       driver: default
       
-# volumes:
-#   dnd-docker-socket:
-#     name: dnd-docker-socket
+volumes:
+  upload:
+    name: upload
 
