@@ -11,7 +11,7 @@ ENV PORT=8000
 
 
 COPY utils ./utils
-COPY main.py .
+COPY main.py schemas.py handlers.py db.py /app/
 
 
 EXPOSE 8000

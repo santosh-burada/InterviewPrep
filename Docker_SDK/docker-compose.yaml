@@ -12,10 +12,12 @@ services:
       - dockersdk
     environment:
       DOCKER_HOST: "tcp://dnd:2375"
+      MONGO_URI: "mongodb://user:pass@mongo:27017/"
     env_file:
       - .secrets
     depends_on:
       - dnd
+      - mongodb
   dnd:
     image: docker
     container_name: dnd
@@ -27,6 +29,19 @@ services:
       - dockersdk
     volumes:
       - "upload:/tmp"
+  mongodb:
+    image: mongo
+    container_name: mongo
+    restart: always
+    networks:
+      - dockersdk
+    volumes:
+      - mongo-data:/data/db
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: "user"
+        MONGO_INITDB_ROOT_PASSWORD: "pass"
+        MONGO_INITDB_DATABASE: "docker_sdk"
+    
 
 networks:
   dockersdk:
@@ -37,4 +52,7 @@ networks:
 volumes:
   upload:
     name: upload
+  mongo-data:
+    name: mongo-data
+    
 
