@@ -11,6 +11,7 @@ ENV PORT=8000
 
 
 COPY utils ./utils
-COPY main.py schemas.py handlers.py db.py /app/
+COPY main.py handlers.py job.py db.py schemas.py /app/
 
-ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7000"]
