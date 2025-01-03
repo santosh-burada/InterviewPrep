@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host Details</title>
+</head>
+<body>
+    <h1>Host Details</h1>
+    <p><strong>Host Name:</strong> {{ inventory_hostname }}</p>
+    <p><strong>IP Address:</strong> {{ ansible_default_ipv4.address }}</p>
+    <p><strong>Operating System:</strong> {{ ansible_facts['os_family'] }} {{ ansible_facts['distribution_version'] }}</p>
+    <p><strong>CPU Cores:</strong> {{ ansible_facts['processor_cores'] }}</p>
+</body>
+</html>
+

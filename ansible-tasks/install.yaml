@@ -1,0 +1,44 @@
+- name: 'Installing Nginx'
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: 'Install Nginx'
+      apt:
+        name: nginx
+        state: present
+
+    - name: Start Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: 'Ensure nginx is running'
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Creating "index.html" file
+      template:
+        src: templates/index.html.j2
+        dest: /var/www/html/index.html
+        mode: '0644'
+
+    - name: Restart nginx to apply changes
+      service:
+        name: nginx
+        state: restarted
+- name: 'Install Firewalld'
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: 'Install Firewalld'
+      apt:
+        name: firewalld
+        state: present
+    - name: Ensure firewalld is started
+      service:
+        name: firewalld
+        state: started
+        enabled: true
