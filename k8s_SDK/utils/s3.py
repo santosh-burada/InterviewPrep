@@ -10,9 +10,9 @@ class S3:
     def upload_file(self, img, key):
         try:
             self.s3_client.put_object(
-                Body=img.file.read(), Bucket="k8s-fileupload2", Key=key
+                Body=img.file.read(), Bucket="k8s-compiler", Key=key
             )
-            url = "https://k8s-fileupload2.s3.us-east-1.amazonaws.com/" + key
+            url = "https://k8s-compiler.s3.us-east-1.amazonaws.com/" + key
             return url
         except Exception as e:
             print(e.args)
@@ -20,7 +20,7 @@ class S3:
     def delete_file(self, key):
         try:
             response = self.s3_client.delete_object(
-                Bucket="k8s-fileupload2", Key=key
+                Bucket="k8s-compiler", Key=key
             )
             return response
         except Exception as e:

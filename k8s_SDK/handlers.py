@@ -9,83 +9,28 @@ logging = setup_logging()
 
 s3utils = S3(os.environ["access_key"], os.environ["secret_key"])
 
-# def create_deployment_object():
-#     env_vars = [
-#         client.V1EnvVar(
-#             name="access_key",
-#             value_from=client.V1EnvVarSource(
-#                 secret_key_ref=client.V1SecretKeySelector(
-#                     name="access-secret",
-#                     key="access_key"
-#                 )
-#             )
-#         ),
-#         client.V1EnvVar(
-#             name="secret_key",
-#             value_from=client.V1EnvVarSource(
-#                 secret_key_ref=client.V1SecretKeySelector(
-#                     name="access-secret",
-#                     key="secret_key"
-#                 )
-#             )
-#         )
-#     ]
-#     container = client.V1Container(
-#         name="dockersdk",
-#         image="santoshburada/docker_sdk:v1.0",
-#         image_pull_policy="IfNotPresent",
-#         ports=[client.V1ContainerPort(container_port=80)],
-#         env=env_vars
-#     )
-#     # Template
-#     template = client.V1PodTemplateSpec(
-#         metadata=client.V1ObjectMeta(labels={"app": "dockersdk"}),
-#         spec=client.V1PodSpec(containers=[container]))
-#     # Spec
-#     spec = client.V1DeploymentSpec(
-#         replicas=1,
-#         selector=client.V1LabelSelector(
-#             match_labels={"app": "dockersdk"}
-#         ),
-#         template=template)
-#     # Deployment
-#     deployment = client.V1Deployment(
-#         api_version="apps/v1",
-#         kind="Deployment",
-#         metadata=client.V1ObjectMeta(name="deploy-dockersdk"),
-#         spec=spec)
-
-#     return deployment
-
-# def create_deployment(apps_v1_api, deployment_object, namespace):
-#     # Create the Deployment in default namespace
-#     # You can replace the namespace with you have created
-#     apps_v1_api.create_namespaced_deployment(
-#         namespace=namespace, body=deployment_object
-#     )
-
-def create_secret(namespace, v1):
-    metadata = client.V1ObjectMeta(name="access-secret")
-    data = {
-        "access_key": base64.b64encode("AKIAVRUVU5U4V63OSYGT".encode()).decode(),  # Replace with your access key
-        "secret_key": base64.b64encode("M6MiBCo7G1vEkq5ihq8hIdG5b5vtTR7I544eZGbU".encode()).decode()  # Replace with your secret key
-    }
+# def create_secret(namespace, v1):
+#     metadata = client.V1ObjectMeta(name="access-secret")
+#     data = {
+#         "access_key": base64.b64encode("AKIAT5YHBMIFCGK4UDWU".encode()).decode(),  # Replace with your access key
+#         "secret_key": base64.b64encode("Vo3/jMiVwzfXxLmPM6l3DLeWiDQcWldaWnYbzqZs".encode()).decode()  # Replace with your secret key
+#     }
   
-    secret = client.V1Secret(
-        api_version="v1",
-        kind="Secret",
-        metadata=metadata,
-        type="Opaque",
-        data=data,
-    )
-    try:
-        v1.create_namespaced_secret(namespace=namespace, body=secret)
-        print(f"Secret 'access-secret' created in namespace '{namespace}'.")
-    except client.exceptions.ApiException as e:
-        if e.status == 409:
-            print(f"Secret 'access-secret' already exists in namespace '{namespace}'.")
-        else:
-            print(f"Error creating secret: {e}")
+#     secret = client.V1Secret(
+#         api_version="v1",
+#         kind="Secret",
+#         metadata=metadata,
+#         type="Opaque",
+#         data=data,
+#     )
+#     try:
+#         v1.create_namespaced_secret(namespace=namespace, body=secret)
+#         print(f"Secret 'access-secret' created in namespace '{namespace}'.")
+#     except client.exceptions.ApiException as e:
+#         if e.status == 409:
+#             print(f"Secret 'access-secret' already exists in namespace '{namespace}'.")
+#         else:
+#             print(f"Error creating secret: {e}")
 
 def create_namespace(namespace_name, v1):
 

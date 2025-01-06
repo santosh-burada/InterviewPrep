@@ -7,6 +7,8 @@ from db import MongoDB
 
 
 
+
+
 app = FastAPI()
 mongo = MongoDB(db_name="docker_sdk")
 collection_name = mongo.create_collection("test_collection")
@@ -66,8 +68,7 @@ def main():
     config.load_incluster_config()
 
     v1 = client.CoreV1Api()
-    create_namespace("compiler",v1)
-    create_secret("compiler", v1)
+
     batch_v1 = client.BatchV1Api()
     response = batch_v1.create_namespaced_job(
         body=job,

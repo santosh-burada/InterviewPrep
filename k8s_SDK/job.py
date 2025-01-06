@@ -10,7 +10,7 @@ job = client.V1Job(
         # ttl_seconds_after_finished=100,
         template=client.V1PodTemplateSpec(
             spec=client.V1PodSpec(
-                service_account_name="compiler-service-account",
+                # service_account_name="compiler-service-account",
                 volumes=[
                     client.V1Volume(
                         name="code-volume",
