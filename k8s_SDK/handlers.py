@@ -9,29 +9,6 @@ logging = setup_logging()
 
 s3utils = S3(os.environ["access_key"], os.environ["secret_key"])
 
-# def create_secret(namespace, v1):
-#     metadata = client.V1ObjectMeta(name="access-secret")
-#     data = {
-#         "access_key": base64.b64encode("AKIAT5YHBMIFCGK4UDWU".encode()).decode(),  # Replace with your access key
-#         "secret_key": base64.b64encode("Vo3/jMiVwzfXxLmPM6l3DLeWiDQcWldaWnYbzqZs".encode()).decode()  # Replace with your secret key
-#     }
-  
-#     secret = client.V1Secret(
-#         api_version="v1",
-#         kind="Secret",
-#         metadata=metadata,
-#         type="Opaque",
-#         data=data,
-#     )
-#     try:
-#         v1.create_namespaced_secret(namespace=namespace, body=secret)
-#         print(f"Secret 'access-secret' created in namespace '{namespace}'.")
-#     except client.exceptions.ApiException as e:
-#         if e.status == 409:
-#             print(f"Secret 'access-secret' already exists in namespace '{namespace}'.")
-#         else:
-#             print(f"Error creating secret: {e}")
-
 def create_namespace(namespace_name, v1):
 
     # Define the Namespace
