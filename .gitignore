@@ -164,3 +164,4 @@ cython_debug/
 **/dockersdk
 **/.DS_Store
 Rough
+k8s_SDK/yamls/secret.yaml
