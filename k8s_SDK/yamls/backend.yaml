@@ -4,6 +4,7 @@ metadata:
   name: application-service-account
   namespace: application
 ---
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -128,3 +129,26 @@ spec:
     - port: 7000       # The port exposed by your backend application
       targetPort: 7000  # The port your backend container listens on
       nodePort: 30001   # Port exposed on the host machine
+
+---
+# create a secret for the application namespace and compiler namespace with the same name aws-credentials and the same keys access_key and secret_key.
+# create an Iam user in AWS and attach the policy AmazonS3FullAccess to the user. create access key and secret key for the user. 
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: aws-credentials
+#   namespace: application  
+# type: Opaque
+# stringData:
+#   access_key: <value>
+#   secret_key: <value>
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: aws-credentials
+#   namespace: compiler  
+# type: Opaque
+# stringData:
+#   access_key: <value>
+#   secret_key: /<value>

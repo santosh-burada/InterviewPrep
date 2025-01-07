@@ -1,11 +1,12 @@
 from kubernetes import client
+import uuid
 
 
 # Define the job specification
 job = client.V1Job(
     api_version="batch/v1",
     kind="Job",
-    metadata=client.V1ObjectMeta(name="compiler-job-1", namespace="compiler"),
+    metadata=client.V1ObjectMeta(name=f"compiler-{str(uuid.uuid1())[:10]}", namespace="compiler"),
     spec=client.V1JobSpec(
         # ttl_seconds_after_finished=100,
         template=client.V1PodTemplateSpec(
@@ -33,7 +34,7 @@ job = client.V1Job(
                                 name= "AWS_ACCESS_KEY_ID",
                                 value_from=client.V1EnvVarSource(
                                     secret_key_ref = client.V1SecretKeySelector(
-                                        name="access-secret",
+                                        name="aws-credentials",
                                         key="access_key"
                                     )
                                 )
@@ -43,14 +44,14 @@ job = client.V1Job(
                                 name="AWS_SECRET_ACCESS_KEY",
                                 value_from=client.V1EnvVarSource(
                                     secret_key_ref=client.V1SecretKeySelector(
-                                         name="access-secret",
+                                         name="aws-credentials",
                                          key="secret_key"
                                     )
                                 )
                             ),
                             client.V1EnvVar(
                                 name = "FILE_PATH",
-                                value="s3://k8s-fileupload2/test.py"
+                                value="s3://k8s-compiler/test.py"
                             ),
                             client.V1EnvVar(
                                 name="FILE_NAME",
